@@ -21,14 +21,18 @@
 
   /* 图库 */
   .grid {
-    display: grid; grid-template-columns: repeat(4, 1fr);
+    display: grid; grid-template-columns: repeat(3, 1fr);
     gap: 8px;
-    padding: 12px 18px;
+    padding: 10px 10px;
     max-width: 1000px; margin: 0 auto;
   }
+  /* 平板/电脑：屏幕够宽时自动增加列数 */
+  @media (min-width: 600px) { .grid { grid-template-columns: repeat(4, 1fr); gap: 12px; padding: 14px 24px; } }
+  @media (min-width: 900px) { .grid { grid-template-columns: repeat(5, 1fr); gap: 14px; padding: 16px 32px; } }
+  @media (min-width: 1200px) { .grid { grid-template-columns: repeat(6, 1fr); } }
   .card {
-    background: #fff; border-radius: 12px; overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0,0,0,.06); position: relative;
+    background: #fff; border-radius: 8px; overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,.08); position: relative;
   }
   .ph {
     aspect-ratio: 3 / 2; background: #eeeef1;
@@ -43,9 +47,9 @@
   }
   .ph img.loaded { opacity: 1; }
   .no-num {
-    position: absolute; left: 8px; top: 8px;
-    background: rgba(0,0,0,.55); color: #fff; font-size: 11px;
-    padding: 2px 8px; border-radius: 20px; line-height: 1.5;
+    position: absolute; left: 4px; top: 4px;
+    background: rgba(0,0,0,.55); color: #fff; font-size: 10px;
+    padding: 1px 6px; border-radius: 20px; line-height: 1.5;
   }
 
   /* 底部操作条 */
@@ -268,6 +272,11 @@ function closeViewer() {
   viewerImg.src = '';
 }
 document.getElementById('viewerClose').addEventListener('click', closeViewer);
+/* 点击背景/非图片区域关闭查看器 */
+viewer.addEventListener('click', function (e) {
+  if (e.target === viewerImg) return;
+  closeViewer();
+});
 document.getElementById('viewerPrev').addEventListener('click', function (e) {
   e.stopPropagation();
   openViewer((cur - 1 + IMAGES.length) % IMAGES.length);
